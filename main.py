@@ -38,13 +38,13 @@ class Student:
         return self._average < other._average
 
     def __add__(self, other):
-        return Student(self._average + other._average)
+        return self._average + other._average
 
     def __mul__(self, other):
-        return Student(self._average * other._average)
+        return self._average * other._average
 
     def __neg__(self):
-        return Student(-self._average)
+        return -self._average
 
 
 class Mentor:
@@ -73,13 +73,13 @@ class Lecturer(Mentor):
         return self._average < other._average
 
     def __add__(self, other):
-        return Student(self._average + other._average)
+        return self._average + other._average
 
     def __mul__(self, other):
-        return Student(self._average * other._average)
+        return self._average * other._average
 
     def __neg__(self):
-        return Student(-self._average)
+        return -self._average
 
 
 class Reviewer(Mentor):
@@ -102,6 +102,31 @@ class Reviewer(Mentor):
 
     def __str__(self):
         return f'Имя: {self.name}\nФамилия: {self.surname}'
+
+
+def average_students_on_course(students_list, course):
+    all_course_grades = []
+    for student in students_list:
+        if not isinstance(student, Student):
+            return f'Ошибка: студента "{student}" не существует'
+        elif course in student.grades:
+            all_course_grades.extend(student.grades[course])
+    if all_course_grades:
+        return round(sum(all_course_grades) / len(all_course_grades), 2)
+    else:
+        return 'Ошибка'
+
+def average_lecturers_of_course(lecturers_list, course):
+    all_course_grades = []
+    for lecturer in lecturers_list:
+        if not isinstance(lecturer, Lecturer):
+            return f'Ошибка: лектора "{lecturer}" не существует'
+        elif course in lecturer.grades:
+            all_course_grades.extend(lecturer.grades[course])
+    if all_course_grades:
+        return round(sum(all_course_grades) / len(all_course_grades), 2)
+    else:
+        return 'Ошибка'
 
 
 best_student = Student('Ruoy', 'Eman', 'your_gender')
@@ -136,4 +161,19 @@ print(cool_reviewer, '\n')
 print(coolest_lecturer, '\n')
 print(big_lecturer, '\n')
 print(best_student == first_student)
+print(best_student != first_student)
+print(best_student > first_student)
+print(best_student < first_student)
+print(best_student + first_student)
+print(best_student * first_student)
+print(-best_student)
+print(coolest_lecturer == big_lecturer)
+print(coolest_lecturer != big_lecturer)
 print(coolest_lecturer > big_lecturer)
+print(coolest_lecturer < big_lecturer)
+print(coolest_lecturer + big_lecturer)
+print(coolest_lecturer * big_lecturer)
+print(-coolest_lecturer)
+print(average_students_on_course([best_student, first_student], 'Python'))
+print(average_students_on_course([best_student, first_student], 'Giton'))
+print(average_lecturers_of_course([coolest_lecturer, big_lecturer], 'Python'))
