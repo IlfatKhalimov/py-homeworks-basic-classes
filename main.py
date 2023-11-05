@@ -15,8 +15,36 @@ class Student:
                 lecturer.grades[course] += [grade]
             else:
                 lecturer.grades[course] = [grade]
+            courses_grades = lecturer.grades.values()
+            all_grades = []
+            for grade_list in courses_grades:
+                all_grades.extend(grade_list)
+            lecturer._average = sum(all_grades) / len(all_grades)
         else:
             return 'Ошибка'
+
+    def __str__(self):
+        return (f'Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за домашние задания: {self._average}\n'
+                f'Курсы в процессе изучения: {", ".join(self.courses_in_progress)}\nЗавершенные курсы: '
+                f'{", ".join(self.finished_courses)}')
+
+    def __eq__(self, other):
+        return self._average == other._average
+
+    def __ne__(self, other):
+        return self._average != other._average
+
+    def __lt__(self, other):
+        return self._average < other._average
+
+    def __add__(self, other):
+        return Student(self._average + other._average)
+
+    def __mul__(self, other):
+        return Student(self._average * other._average)
+
+    def __neg__(self):
+        return Student(-self._average)
 
 
 class Mentor:
@@ -29,7 +57,29 @@ class Mentor:
 class Lecturer(Mentor):
     def __init__(self, name, surname):
         super().__init__(name, surname)
+        self._average = 0
         self.grades = {}
+
+    def __str__(self):
+        return f'Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за лекции: {self._average}'
+
+    def __eq__(self, other):
+        return self._average == other._average
+
+    def __ne__(self, other):
+        return self._average != other._average
+
+    def __lt__(self, other):
+        return self._average < other._average
+
+    def __add__(self, other):
+        return Student(self._average + other._average)
+
+    def __mul__(self, other):
+        return Student(self._average * other._average)
+
+    def __neg__(self):
+        return Student(-self._average)
 
 
 class Reviewer(Mentor):
@@ -42,8 +92,16 @@ class Reviewer(Mentor):
                 student.grades[course] += [grade]
             else:
                 student.grades[course] = [grade]
+            courses_grades = student.grades.values()
+            all_grades = []
+            for grade_list in courses_grades:
+                all_grades.extend(grade_list)
+            student._average = sum(all_grades) / len(all_grades)
         else:
             return 'Ошибка'
+
+    def __str__(self):
+        return f'Имя: {self.name}\nФамилия: {self.surname}'
 
 
 best_student = Student('Ruoy', 'Eman', 'your_gender')
@@ -72,5 +130,10 @@ good_reviewer.rate_hw(first_student, 'Python', 7)
 first_student.rate_lecture(coolest_lecturer, 'Python', 8)
 best_student.rate_lecture(coolest_lecturer, 'Python', 6)
 
-print(best_student.grades)
-print(coolest_lecturer.grades)
+print(best_student, '\n')
+print(first_student, '\n')
+print(cool_reviewer, '\n')
+print(coolest_lecturer, '\n')
+print(big_lecturer, '\n')
+print(best_student == first_student)
+print(coolest_lecturer > big_lecturer)
