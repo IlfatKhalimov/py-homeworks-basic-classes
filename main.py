@@ -1,6 +1,5 @@
 class Student:
     def __init__(self, name, surname, gender):
-        self._average = 0
         self.name = name
         self.surname = surname
         self.gender = gender
@@ -23,6 +22,16 @@ class Mentor:
                 student.grades[course] = [grade]
         else:
             return 'Ошибка'
+
+
+class Lecturer(Mentor):
+    def __init__(self, name, surname):
+        super().__init__(name, surname)
+
+
+class Reviewer(Mentor):
+    def __init__(self, name, surname):
+        super().__init__(name, surname)
 
 
 best_student = Student('Ruoy', 'Eman', 'your_gender')
